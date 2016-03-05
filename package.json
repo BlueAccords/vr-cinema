@@ -42,6 +42,7 @@
     "node-linkedin": "^0.5.3",
     "node-sass-middleware": "^0.9.7",
     "nodemailer": "^2.3.0",
+    "nunjucks": "^2.3.0",
     "passport": "0.3.2",
     "passport-facebook": "^2.1.0",
     "passport-github": "^1.1.0",
