@@ -1,25 +1,26 @@
 /**
  * Module dependencies.
  */
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var compress = require('compression');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var logger = require('morgan');
-var errorHandler = require('errorhandler');
-var lusca = require('lusca');
-var methodOverride = require('method-override');
-var dotenv = require('dotenv');
-var MongoStore = require('connect-mongo/es5')(session);
-var flash = require('express-flash');
-var path = require('path');
-var mongoose = require('mongoose');
-var passport = require('passport');
+var express          = require('express');
+var cookieParser     = require('cookie-parser');
+var compress         = require('compression');
+var session          = require('express-session');
+var bodyParser       = require('body-parser');
+var logger           = require('morgan');
+var errorHandler     = require('errorhandler');
+var lusca            = require('lusca');
+var methodOverride   = require('method-override');
+var dotenv           = require('dotenv');
+var MongoStore       = require('connect-mongo/es5')(session);
+var flash            = require('express-flash');
+var path             = require('path');
+var mongoose         = require('mongoose');
+var passport         = require('passport');
 var expressValidator = require('express-validator');
-var sass = require('node-sass-middleware');
-var multer = require('multer');
-var upload = multer({ dest: path.join(__dirname, 'uploads') });
+var sass             = require('node-sass-middleware');
+var multer           = require('multer');
+var upload           = multer({ dest: path.join(__dirname, 'uploads') });
+var nunjucks         = require('nunjucks');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -56,11 +57,22 @@ mongoose.connection.on('error', function() {
 });
 
 /**
+ * Nunjucks configuration
+ */
+ nunjucks.configure('views', {
+    autoescape: true,
+    express: app,
+    watch: true
+});
+
+app.engine('html', nunjucks.render);
+
+/**
  * Express configuration.
  */
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
 app.use(compress());
 app.use(sass({
   src: path.join(__dirname, 'public'),
