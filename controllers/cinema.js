@@ -2,6 +2,9 @@ var crypto = require('crypto-js/md5');
 var request = require('request');
 
 function ivaURL() {
+  // TODO: make bash scripts to export variables at some point for secret values
+  var secret = 'vnwjrhxowupaujpy';
+
   this.baseUrl = 'http://video.internetvideoarchive.net/video.mp4?';
   this.cmd = 'cmd=6'; //required,  6, alternative = 3.
   // kbitrate, MP4 – 80, 212, 450, 750, 1500, 2500(HD sources only) Kbps
@@ -40,14 +43,14 @@ function ivaURL() {
 
   this.outputUrl = function() {
     var url = this.baseUrl +
+    this.customerId     + '&' +
     this.cmd            + '&' +
+    this.format         + '&' +
     this.videoKbitrate  + '&' +
     this.publishId      + '&' +
-    this.customerId     + '&' +
-    this.format         + '&' +
     this.urlExpires;
 
-    var hashedUrl = crypto(url.toLowerCase());
+    var hashedUrl = crypto(secret + url.toLowerCase());
     url += '&h=' + hashedUrl;
 
     return url;
@@ -81,11 +84,12 @@ exports.getMovie = function(req, res) {
 
   function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-      var info = JSON.parse(body);
+      // var info = JSON.parse(body);
+      var info = body;
       console.log(info);
       res.render('cinema', {
         title: 'Cinemality',
-        url: url,
+        url: url.outputUrl(),
         info: info,
       });
     }
