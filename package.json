@@ -38,6 +38,7 @@
     "method-override": "^2.3.5",
     "mongoose": "^4.4.6",
     "morgan": "^1.7.0",
+    "moviedb": "^0.2.2",
     "multer": "^1.1.0",
     "node-foursquare": "^0.3.0",
     "node-linkedin": "^0.5.3",

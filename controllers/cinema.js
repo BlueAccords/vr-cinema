@@ -1,5 +1,7 @@
 var crypto = require('crypto-js/md5');
 var request = require('request');
+var MovieDB = require('moviedb')('866913fcc5a950bed785551769c37f7c');
+
 
 function ivaURL() {
   // TODO: make bash scripts to export variables at some point for secret values
@@ -83,6 +85,27 @@ exports.getMovie = function(req, res) {
   res.render('cinemaSearch', {
 
   });
+};
+
+// idtype=68 for TMDb
+exports.getKeywords = function(req, res) {
+  MovieDB.searchMovie({query: 'Lord of the Rings' }, function(err, result){
+    console.log(result.results[0].original_title);
+    MovieDB.movieKeywords({id: result.results[0].id}, function(err, keywords) {
+      console.log(keywords.keywords);
+      MovieDB.keywordMovies({id: keywords.keywords[0].id}, function(err, relatedKeywords) {
+        // console.log('related keywords');
+        // console.log(relatedKeywords);
+        res.render('keywords', {
+          result: relatedKeywords.results,
+        })
+      })
+
+    })
+    // res.render('keywords', {
+    //   result: result.results[0],
+    // })
+  })
 };
 
 exports.postMovie = function(req, res) {
