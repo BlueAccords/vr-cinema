@@ -3,10 +3,12 @@
 {% block content %}
 
 <h1>Cinemality</h1>
-<h3>http://video.internetvideoarchive.net/player.aspx?customerId=12345&cmd=6&fmt=4videokbrate=750&publishedid=1757&e=1171159092&h=c13c876ea
-</h3>
 <h3>{{url}}</h3>
 
+<video width="1024" height="860" controls>
+  <source src="{{url}}" type="video/mp4">
+Your browser does not support the video tag.
+</video>
 <p>
   {{ info }}
 </p>

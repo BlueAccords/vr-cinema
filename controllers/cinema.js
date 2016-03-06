@@ -57,7 +57,7 @@ function ivaURL() {
   };
 }
 
-exports.getMovie = function(req, res) {
+exports.getVideo = function(req, res) {
   var url = new ivaURL();
   url.setVideoKbitrate('750');
   // make a request for the id.
@@ -66,6 +66,27 @@ exports.getMovie = function(req, res) {
   url.setFormat('4');
   url.setUrlExpires('1457508799');
 
+      res.render('cinema', {
+        title: 'Cinemality',
+        url: url.outputUrl(),
+        // info: info,
+      });
+
+  // request(options, callback);
+
+//866913fcc5a950bed785551769c37f7c
+// TMDb api key
+
+};
+
+exports.getMovie = function(req, res) {
+  res.render('cinemaSearch', {
+
+  });
+};
+
+exports.postMovie = function(req, res) {
+  console.log('awefwafawfwe');
   // $.ajax({
   //   dataType: "json",
   //   headers: {
@@ -73,30 +94,44 @@ exports.getMovie = function(req, res) {
   //    'X-Api-Version': '1'
   //   },
   //   url: 'https://ee.internetvideoarchive.net/api/expresspro/actions/search/',
+  var url = 'https://ee.internetvideoarchive.net/api/expresspro/actions/search/?appid=2c0bfc22&term=' + encodeURIComponent(req.body.title);
 
-
+  console.log('the url');
+  console.log(url);
   var options = {
-    url: url.outputUrl(),
+    // url: 'http://api.internetvideoarchive.com/2.0/DataService/EntertainmentPrograms' + encodeURIComponent('()?$filter=substringof("Jurassic World",Title) and StreamLengthinseconds gt 0&$expand=MovieCategory, Description, ProgramToPerformerMaps/Performer, VideoAssets&format=json@developerid=105db639-eb8e-4cb0-b900-afb8ad519bb1'),
+    // url: 'http://api.internetvideoarchive.com/2.0/DataService/EntertainmentPrograms',
+    url: url,
+    method: 'GET',
     headers: {
-      'User-Agent': 'request'
+      'Content-Type': 'json',
+      Authorization: 'Bearer ' + 'CRM2BrKREqDkoZUwYKhGG99QA2_d2vAi7flH9v8iaLVn5vpLpbag3vPfUbRetn-0w3qgSAEXP5fYOlf6i8tjuVk82zT5dqTsUn_1MTga6F-ithuTQGy0FQGhgkWNzPa20OyYsKFa_7Z8vb32zph7gWA5RcbENbnNbwzJiI4S8jUARgxKexj4Z28HCKDVONscjG606UgHpwWiIVWIMEP60Pkyf5_wB7VTyWgBjnJDudNNGhOtaod_YeIJhUv2o7eGeMuElTzbn7tvQZokNi4bpgEYeuQ',
+      'X-Api-Version': '1'
     },
+    // path: encodeURIComponent('()?$filter=substringof("Jurassic World",Title) and StreamLengthinseconds gt 0&$expand=MovieCategory, Description, ProgramToPerformerMaps/Performer, VideoAssets&format=json@developerid=105db639-eb8e-4cb0-b900-afb8ad519bb1'),
   };
 
-  function callback(error, response, body) {
+  request(options, function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-      // var info = JSON.parse(body);
-      var info = body;
-      console.log(info);
-      res.render('cinema', {
+      var info = JSON.parse(body);
+      console.log(info[0]);
+      res.render('cinemaSearch', {
         title: 'Cinemality',
-        url: url.outputUrl(),
-        info: info,
+        info: info[0],
+      });
+    } else {
+      console.log('error: ');
+      console.log(error);
+      res.render('cinemaSearch', {
+        title: 'Cinemality',
+        error: error,
+        response: response,
+        body: body
       });
     }
-  }
-
-  request(options, callback);
-
-
+  });
 
 };
+
+// rovi
+// gracenote - meta info, TMS id from Grace note > search IVA; pinpoint api
