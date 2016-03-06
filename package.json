@@ -20,6 +20,7 @@
     "connect-assets": "^5.1.0",
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.1",
+    "crypto-js": "^3.1.6",
     "dotenv": "^2.0.0",
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",

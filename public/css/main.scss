@@ -9,6 +9,12 @@
 // Scaffolding
 // -------------------------
 
+$primary: #D93D1A;
+$primary-light: #F28F38;
+$secondary: #0C2659;
+$secondary-light: #589EA6;
+$background: #F2F0D8;
+
 html {
   position: relative;
   min-height: 100%;
@@ -68,4 +74,20 @@ textarea {
 
 .fa {
   margin-right: 6px;
+}
+
+
+// Actual Custom CSS
+
+.html {
+  background-color: $background;
+}
+
+.jumbotron {
+  background-color: $primary;
+  color: $background;
+}
+
+.navbar {
+  background: $primary;
 }
