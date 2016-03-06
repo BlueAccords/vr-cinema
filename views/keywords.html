@@ -18,8 +18,17 @@
   </div>
 </form>
 
-{% for keyword in result %}
-{{keyword.title}}
+<h1>{{ movieTitle}}</h1>
+
+<h2>Keywords</h2>
+{% for keyword in keywords %}
+{{ keyword.name }}
+<br>
+{% endfor %}
+
+<h2>Related Movies</h2>
+{% for keywordMovie in result %}
+{{keywordMovie.title}}
 <br>
 {% endfor %}
 <!-- {{ result }} -->
