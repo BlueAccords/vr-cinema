@@ -96,51 +96,84 @@ exports.getKeywords = function(req, res) {
 // idtype=68 for TMDb
 exports.postKeywords = function(req, res) {
   var renderKeywords = [];
+  var trailerLinks = [];
+  var relatedKeywords = [];
+
   MovieDB.searchMovie({query: req.body.title }, function(err, result){
-    if(err)
-    console.log(result.results[0].original_title);
+    if(err) console.log(err);
+    // console.log(result.results[0].original_title);
     MovieDB.movieKeywords({id: result.results[0].id}, function(err, keywords) {
       // console.log(keywords.keywords);
+      if(err) console.log(err);
       renderKeywords = keywords.keywords.slice();
-      MovieDB.keywordMovies({id: keywords.keywords[0].id}, function(err, relatedKeywords) {
 
-        // do ao thing with loops here
-        var url = 'https://ee.internetvideoarchive.net/api/expresspro/';
+      async.each(keywords.keywords,
+        function(item, cb) {
 
-        console.log('the url');
-        console.log(url);
-        var options = {
-          // url: 'http://api.internetvideoarchive.com/2.0/DataService/EntertainmentPrograms' + encodeURIComponent('()?$filter=substringof("Jurassic World",Title) and StreamLengthinseconds gt 0&$expand=MovieCategory, Description, ProgramToPerformerMaps/Performer, VideoAssets&format=json@developerid=105db639-eb8e-4cb0-b900-afb8ad519bb1'),
-          // url: 'http://api.internetvideoarchive.com/2.0/DataService/EntertainmentPrograms',
-          url: url,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'json',
-            Authorization: 'Bearer ' + 'CRM2BrKREqDkoZUwYKhGG99QA2_d2vAi7flH9v8iaLVn5vpLpbag3vPfUbRetn-0w3qgSAEXP5fYOlf6i8tjuVk82zT5dqTsUn_1MTga6F-ithuTQGy0FQGhgkWNzPa20OyYsKFa_7Z8vb32zph7gWA5RcbENbnNbwzJiI4S8jUARgxKexj4Z28HCKDVONscjG606UgHpwWiIVWIMEP60Pkyf5_wB7VTyWgBjnJDudNNGhOtaod_YeIJhUv2o7eGeMuElTzbn7tvQZokNi4bpgEYeuQ',
-            'X-Api-Version': '1'
-          },
-          // path: encodeURIComponent('()?$filter=substringof("Jurassic World",Title) and StreamLengthinseconds gt 0&$expand=MovieCategory, Description, ProgramToPerformerMaps/Performer, VideoAssets&format=json@developerid=105db639-eb8e-4cb0-b900-afb8ad519bb1'),
-        };
+          MovieDB.keywordMovies({ id: item.id }, function(err, moviesUnderKeyword) {
+            if(err) console.log(err);
+            // do ao thing with loops here
+            // var url = 'https://ee.internetvideoarchive.net/api/expresspro/';
+            // console.log(moviesUnderKeyword);
+            // relatedKeywords = moviesUnderKeyword.slice();
+            var url = 'https://ee.internetvideoarchive.net/api/expresspro/' + moviesUnderKeyword.results[0].id +
+            '?idtype=1&appid=2c0bfc22';
 
-        request(options, function callback(error, response, body) {
-          if (!error && response.statusCode == 200) {
-            var info = JSON.parse(body);
-            console.log(info[0]);
-            res.render('cinemaSearch', {
-              title: 'Cinemality',
-              info: info[0],
+            console.log('the url');
+            console.log(url);
+            var options = {
+              // expresspro/1756?idtype=1&appid=12345.
+              // url: 'http://api.internetvideoarchive.com/2.0/DataService/EntertainmentPrograms' + encodeURIComponent('()?$filter=substringof("Jurassic World",Title) and StreamLengthinseconds gt 0&$expand=MovieCategory, Description, ProgramToPerformerMaps/Performer, VideoAssets&format=json@developerid=105db639-eb8e-4cb0-b900-afb8ad519bb1'),
+              // url: 'http://api.internetvideoarchive.com/2.0/DataService/EntertainmentPrograms',
+              url: url,
+              method: 'GET',
+              headers: {
+                'Content-Type': 'json',
+                Authorization: 'Bearer ' + 'CRM2BrKREqDkoZUwYKhGG99QA2_d2vAi7flH9v8iaLVn5vpLpbag3vPfUbRetn-0w3qgSAEXP5fYOlf6i8tjuVk82zT5dqTsUn_1MTga6F-ithuTQGy0FQGhgkWNzPa20OyYsKFa_7Z8vb32zph7gWA5RcbENbnNbwzJiI4S8jUARgxKexj4Z28HCKDVONscjG606UgHpwWiIVWIMEP60Pkyf5_wB7VTyWgBjnJDudNNGhOtaod_YeIJhUv2o7eGeMuElTzbn7tvQZokNi4bpgEYeuQ',
+                'X-Api-Version': '1'
+              },
+              // path: encodeURIComponent('()?$filter=substringof("Jurassic World",Title) and StreamLengthinseconds gt 0&$expand=MovieCategory, Description, ProgramToPerformerMaps/Performer, VideoAssets&format=json@developerid=105db639-eb8e-4cb0-b900-afb8ad519bb1'),
+            };
+
+            request(options, function callback(error, response, body) {
+              if (!error && response.statusCode == 200) {
+                var info = JSON.parse(body);
+                console.log('kILL ME ====================================');
+                // console.log(info);
+
+                cb()
+              } else {
+                console.log('error: ');
+                console.log(error);
+
+                cb()
+              }
             });
-          } else {
-            console.log('error: ');
-            console.log(error);
-            res.render('cinemaSearch', {
-              title: 'Cinemality',
-              error: error,
-              response: response,
-              body: body
-            });
-          }
+          })
+          // loop through keywords.keywords (list of keywords)
+          // id/keyword pairs. example:
+          // { id: 603, name: 'elves' },
+          //  { id: 604, name: 'dwarves' },
+          //  { id: 606, name: 'orcs' },
+          //  { id: 609, name: 'middle-earth (tolkien)' },
+
+
+          // afterwards search by keyword for a list of related movies
+          // then get one movie from the array of listed movies
+          // then get the id from the one movie per keyword
+          // and find the related trailer
+          // add the trailer URL to an array
+
+        }, function done(){
+          res.render('keywords', {
+            result: relatedKeywords.results,
+            keywords: renderKeywords,
+            movieTitle: result.results[0].original_title,
+          });
         });
+
+
+
 
 
         // console.log('related keywords');
@@ -149,8 +182,6 @@ exports.postKeywords = function(req, res) {
         //   result: relatedKeywords.results,
         //   keywords: renderKeywords,
         //   movieTitle: result.results[0].original_title,
-        // });
-      });
     });
   });
 };
