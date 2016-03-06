@@ -2,7 +2,7 @@ Hackathon project for NBCUniversal's hackathon http://nbcuhackathon.com/medialab
 
 March 2016  
 
-boilerplate forked from https://github.com/sahat/hackathon-starter
+boilerplate from https://github.com/sahat/hackathon-starter
 
 The MIT License (MIT)
 
