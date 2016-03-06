@@ -9,10 +9,10 @@
 // Scaffolding
 // -------------------------
 
-$primary: #D93D1A;
-$primary-light: #F28F38;
-$secondary: #0C2659;
-$secondary-light: #589EA6;
+$primary: #162223;
+$primary-light: #6A6B63;
+$secondary: #191F21;
+$secondary-light: #6A6B63;
 $background: #F2F0D8;
 
 html {
@@ -90,4 +90,54 @@ textarea {
 
 .navbar {
   background: $primary;
+}
+
+
+
+.navbar-default .navbar-brand {
+   color: #F2F0D8 ;
+}
+
+.jumbotron {
+   background-color: #000;
+   color: #BAB8A6 ;
+}
+
+.btn-success {
+   color: #fff;
+   background-color: #162223 ;
+   border-color: #6A6B63 ;
+}
+
+.btn-info {
+   color: #fff;
+   background-color: #191F21 ;
+   border-color: #807777 ;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #191F21 ;
+  border-color: #807777 ;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #191F21 ;
+  border-color: #807777 ;
+
+  &:focus {
+    outline: none;
+    color: #fff;
+    background-color: #191F21 ;
+    border-color: #807777 ;
+
+  }
+  &:hover {
+    outline: none;
+    color: #fff;
+    background-color: #191F21 ;
+    border-color: #807777 ;
+
+   }
 }

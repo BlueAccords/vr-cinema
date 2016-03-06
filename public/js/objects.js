@@ -7,7 +7,7 @@
   var canPlayMp4	= document.createElement('video').canPlayType('video/mp4') !== '' ? true : false
   var canPlayOgg	= document.createElement('video').canPlayType('video/ogg') !== '' ? true : false
   if( canPlayMp4 ){
-    var url	= 'assets/sintel.mp4'
+    var url	= 'assets/welcome.mp4'
   }else if( canPlayOgg ){
     var url	= 'assets/sintel.ogv'
   }else	alert('cant play mp4 or ogv')
@@ -19,6 +19,17 @@
     videoTexture.update(delta, now)
   });
   videoTexture.texture.needsUpdate = true;
+
+  // Create the audio
+  window.AudioContext	= window.AudioContext || window.webkitAudioContext;
+  var context	= new AudioContext();
+  // wait until the vid is loaded
+  videoTexture.video.addEventListener('canplaythrough', function(event){
+    // create a source node from the mediaElement
+    var sourceNode	= context.createMediaElementSource(videoTexture.video);
+    // connect it to WebAudio API
+    sourceNode.connect(context.destination);
+  });
 
   var mainCubeGeometry = new THREE.BoxGeometry(160,90,1); // This is the aspect ratio of 16:9
   var mainCubeMaterial = new THREE.MeshBasicMaterial({
@@ -40,6 +51,18 @@
         videoTexture.update(delta, now)
       });
       videoTexture.texture.needsUpdate = true;
+
+      // Create the audio
+      context.close();
+      window.AudioContext	= window.AudioContext || window.webkitAudioContext;
+    	context	= new AudioContext();
+      // wait until the vid is loaded
+    	videoTexture.video.addEventListener('canplaythrough', function(event){
+    		// create a source node from the mediaElement
+    		sourceNode	= context.createMediaElementSource(videoTexture.video);
+    		// connect it to WebAudio API
+    		sourceNode.connect(context.destination);
+    	});
 
       var mainCubeGeometry = new THREE.BoxGeometry(160,90,1); // This is the aspect ratio of 16:9
       var mainCubeMaterial = new THREE.MeshBasicMaterial({

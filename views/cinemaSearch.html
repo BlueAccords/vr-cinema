@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<!-- <script src="js/effects.js"></script> -->
 
 <form class="form-horizontal" method="post" action="/cinemality">
   <input type="hidden" name="_csrf" value="{{_csrf}}">
@@ -18,9 +19,26 @@
   </div>
 </form>
 
-<p>{{info.Title }}</p>
-<p>{{error}}</p>
-<p>{{response}}</p>
-<p>{{body | safe}}</p>
+<img src="{{qr}}" alt="" />
+<a href="/player">{{url_text}}</a> 
+<script type="text/javascript">
+function playCommand(){
+  var snd=document.getElementById('noise');
+  canPlayMP3 = (typeof snd.canPlayType === "function" && snd.canPlayType("audio/mpeg") !== "");
+  snd.src=canPlayMP3?'assets/command.mp3':'';
+  snd.load();
+  snd.play();
+}
+
+function playSound(){
+    var snd=document.getElementById('noise');
+    canPlayMP3 = (typeof snd.canPlayType === "function" && snd.canPlayType("audio/mpeg") !== "");
+    snd.src=canPlayMP3?'assets/welcome.mp3':'';
+    snd.load();
+    snd.play();
+}
+</script>
+<audio id="noise"></audio>
+<button type="button" name="button" onclick="playCommand()">{{play}}</button>
 
 {% endblock %}

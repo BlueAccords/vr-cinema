@@ -8830,10 +8830,47 @@ textarea {
   background-color: #F2F0D8; }
 
 .jumbotron {
-  background-color: #D93D1A;
+  background-color: #162223;
   color: #F2F0D8; }
 
 .navbar {
-  background: #D93D1A; }
+  background: #162223; }
+
+.navbar-default .navbar-brand {
+  color: #F2F0D8; }
+
+.jumbotron {
+  background-color: #000;
+  color: #BAB8A6; }
+
+.btn-success {
+  color: #fff;
+  background-color: #162223;
+  border-color: #6A6B63; }
+
+.btn-info {
+  color: #fff;
+  background-color: #191F21;
+  border-color: #807777; }
+
+.btn-primary {
+  color: #fff;
+  background-color: #191F21;
+  border-color: #807777; }
+
+.btn-primary {
+  color: #fff;
+  background-color: #191F21;
+  border-color: #807777; }
+  .btn-primary:focus {
+    outline: none;
+    color: #fff;
+    background-color: #191F21;
+    border-color: #807777; }
+  .btn-primary:hover {
+    outline: none;
+    color: #fff;
+    background-color: #191F21;
+    border-color: #807777; }
 
 /*# sourceMappingURL=main.css.map */

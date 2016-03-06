@@ -124,8 +124,8 @@ function init() {
   scene.add(logoCube);
   scene.add(secCube);
 
-  updateButtons(['movie tag1','movie tag2','movie tag3','movie tag4',
-                'movie tag5','movie tag6'])
+  updateButtons(['A Book','DoaF','Dwarves','Elves',
+                'Mountains','Other'])
 
   camera.add(crossMesh); // rectMesh name of the cross
   crossMesh.position.set( 0, 0, - 100 );
@@ -171,22 +171,22 @@ function render(dt) {
   //console.log( camPos.x + ',' + camPos.y + ',' + camPos.z);
 
   if (camPos.x  > -5 && camPos.x < 0 && camPos.y > -37 && camPos.y < -29 && isRes == true){
-      showCircRedir('assets/example1.mp4');
+      showCircRedir('assets/basedMovie.mp4');
       }
   else if (camPos.x  > -16 && camPos.x < -11 && camPos.y > -37 && camPos.y < -29 && isRes == true){
-    showCircRedir('assets/small.ogv');
+    showCircRedir('assets/deathMovie.mp4');
   }
   else if (camPos.x  > -26 && camPos.x < -22 && camPos.y > -37 && camPos.y < -29 && isRes == true){
-    showCircRedir('assets/sintel.mp4');
+    showCircRedir('assets/dwarvesMovie.mp4');
   }
   else if (camPos.x  > -5 && camPos.x < 0 && camPos.y > 31 && camPos.y < 38 && isRes == true){
-    showCircRedir('assets/example2.mp4');
+    showCircRedir('assets/elvesMovie.mp4');
       }
   else if (camPos.x  > -16 && camPos.x < -11 && camPos.y > 31 && camPos.y < 38 && isRes == true){
-    showCircRedir('http://localhost');
+    showCircRedir('assets/mountainsMovie.mp4');
       }
   else if (camPos.x  > -26 && camPos.x < -22 && camPos.y > 31 && camPos.y < 38 && isRes == true){
-    showCircRedir('http://localhost');
+    showCircRedir('assets/sintel.mp4');
       }
   else {
     clearCircRedir(); // clear the timeout
