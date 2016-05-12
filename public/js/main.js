@@ -1,11 +1,14 @@
 // Main file for the Demo
 
+var debug = true; // Set debug mode true or false
+
 // Declare the scene, camera and renderer
 var camera, scene, renderer;
 var effect, controls;
 var element, container;
 
 var clock = new THREE.Clock();
+var tCounter = 0; // to calculate fps
 
 // Add the animations object
 var animations = new Animations();
@@ -37,7 +40,7 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
-  camera.position.set(0, 100, 150);
+  camera.position.set(-10, 100, 150);
   scene.add(camera);
 
   controls = new THREE.OrbitControls(camera, element);
@@ -168,7 +171,28 @@ function render(dt) {
   camPos.x = Math.floor(((camera.rotation.x*180)/Math.PI));
   camPos.y = Math.floor(((camera.rotation.y*180)/Math.PI));
   camPos.z = Math.floor(((camera.rotation.z*180)/Math.PI));
-  //console.log( camPos.x + ',' + camPos.y + ',' + camPos.z);
+
+  if (debug){
+    tCounter++;
+    document.getElementById("debug").innerHTML = 'x: ' + camPos.x + ', y:' + camPos.y +
+     ', z:' + camPos.z + '<br>fps: ' + (tCounter/clock.getElapsedTime()).toFixed(2);
+  }
+
+  // Add keyboard controls
+  document.addEventListener('keydown', function(event) {
+    // Up
+    if(event.keyCode == 38)
+        camera.position.y += 0.01;
+    // Down
+    if(event.keyCode == 40)
+        camera.position.y -= 0.01;
+    // Left
+    if(event.keyCode == 37)
+        camera.position.x += 0.01;
+    // Right
+    if(event.keyCode == 39)
+        camera.position.x -= 0.01;
+    });
 
   if (camPos.x  > -5 && camPos.x < 0 && camPos.y > -37 && camPos.y < -29 && isRes == true){
       showCircRedir('assets/basedMovie.mp4');
@@ -207,8 +231,7 @@ var showCircRedir = (function(target) {
             setTimeout(function(){ circMesh.position.set( 11, 11, - 300 ); }, 1500);
             tmo = window.setTimeout(function(){
               updateVideo(target);
-              updateButtons(['NAME1','NAME2','NAME3','NAME4',
-                            'NAME5','NAME6'])
+              //updateButtons(['NAME1','NAME2','NAME3','NAME4','NAME5','NAME6'])
 
               //window.location = target;
            }, 2000);
